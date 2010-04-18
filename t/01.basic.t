@@ -8,7 +8,7 @@ BEGIN { $INC{'Foo.pm'}++ }
     package Foo;
     use Exportare;
     BEGIN { our @EXPORT = qw(this); }
-    sub this { ::pass('this') }
+    sub this { ::pass(shift) }
 }
 {
 
@@ -16,7 +16,7 @@ BEGIN { $INC{'Foo.pm'}++ }
     use Foo;
 
     package main;
-    Bar::this();
+    Bar::this('Bar::this');
 }
 
 {
@@ -25,7 +25,7 @@ BEGIN { $INC{'Foo.pm'}++ }
     use Foo this => { -as => 'that' };
 
     package main;
-    Bar::That::that();
+    Bar::That::that('Bar:That::that');
 }
 
 {
@@ -34,7 +34,7 @@ BEGIN { $INC{'Foo.pm'}++ }
     use Foo this => { -prefix => 'foo_' };
 
     package main;
-    Bar::Prefix::foo_this();
+    Bar::Prefix::foo_this('Bar::Prefix::foo_this');
 }
 
 {
@@ -43,7 +43,7 @@ BEGIN { $INC{'Foo.pm'}++ }
     use Foo this => { -suffix => '_foo' };
 
     package main;
-    Bar::Suffix::this_foo();
+    Bar::Suffix::this_foo('Bar::Suffix::this_foo');
 }
 
 done_testing;

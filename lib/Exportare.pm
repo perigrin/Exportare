@@ -25,15 +25,11 @@ sub import {
     else {
         %imports = map { $_ => $exporter->can($_) } @imports;
     }
-    _export( $exporter, $caller, %imports );
-}
 
-sub _export {
-    my ( $from, $to, %import ) = @_;
-    for my $name ( keys %import ) {
+    for my $name ( keys %imports ) {
         Sub::Install::install_sub {
-            code => $import{$name},
-            into => $to,
+            code => $imports{$name},
+            into => $caller,
             as   => $name,
         };
     }
