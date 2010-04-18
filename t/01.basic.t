@@ -21,11 +21,29 @@ BEGIN { $INC{'Foo.pm'}++ }
 
 {
 
-    package Baz;
+    package Bar::That;
     use Foo this => { -as => 'that' };
 
     package main;
-    Baz::that();
+    Bar::That::that();
+}
+
+{
+
+    package Bar::Prefix;
+    use Foo this => { -prefix => 'foo_' };
+
+    package main;
+    Bar::Prefix::foo_this();
+}
+
+{
+
+    package Bar::Suffix;
+    use Foo this => { -suffix => '_foo' };
+
+    package main;
+    Bar::Suffix::this_foo();
 }
 
 done_testing;

@@ -14,7 +14,12 @@ sub import {
     elsif ( grep { ref } @imports ) {    # have an optlist
         my @copy = @imports;
         while ( my ( $name, $opts ) = splice( @copy, 0, 2 ) ) {
-            $imports{ $opts->{-as} } = $exporter->can($name);
+            my $new_name =
+                exists $opts->{'-as'}     ? $opts->{'-as'}
+              : exists $opts->{'-prefix'} ? $opts->{'-prefix'} . $name
+              : exists $opts->{'-suffix'} ? $name . $opts->{'-suffix'}
+              :                             $name;
+            $imports{$new_name} = $exporter->can($name);
         }
     }
     else {
