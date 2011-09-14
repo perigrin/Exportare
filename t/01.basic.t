@@ -8,6 +8,7 @@ BEGIN { $INC{'Foo.pm'}++ }
     package Foo;
     use Exportare;
     BEGIN { our @EXPORT = qw(this); }
+    
     sub this { ::pass(shift) }
 }
 {
